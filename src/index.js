@@ -2,6 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+function getCoords(index) {
+  return {
+    x: Math.floor(index / 3),
+    y: index % 3,
+  };
+}
+
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -23,8 +30,9 @@ function calculateWinner(squares) {
 }
 
 function Square(props) {
+  const color = props.isCurrent ? 'red' : undefined;
   return (
-    <button className="square" onClick={props.onClick}>
+    <button className="square" style={{ color }} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -32,9 +40,14 @@ function Square(props) {
 
 class Board extends React.Component {
   renderSquare(i) {
+    const coords = getCoords(i);
+    const { x, y } = this.props.coords;
+    const isCurrent = coords.x === x && coords.y === y;
+
     return (
       <Square
         value={this.props.squares[i]}
+        isCurrent={ isCurrent }
         onClick={() => this.props.onClick(i)}
       />
     );
@@ -94,8 +107,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat({
         squares,
-        x: Math.floor(i / 3),
-        y: i % 3,
+        ...getCoords(i),
       }),
       xIsNext: !xIsNext,
       step: history.length,
@@ -111,7 +123,7 @@ class Game extends React.Component {
 
   render() {
     const { history, step } = this.state;
-    const { squares } = history[step];
+    const { squares,x,y } = history[step];
     const winner = calculateWinner(squares);
     const status = winner ? `Winner: ${winner}` : `Next player: ${this.player()}`;
     const moves = history.map((step, move) => {
@@ -128,7 +140,8 @@ class Game extends React.Component {
       <div className="game">
         <div className="game-board">
           <Board
-            squares={ squares }
+            squares={squares}
+            coords={{x,y}}
             onClick={(i) => this.handleClick(i)}
           />
         </div>
