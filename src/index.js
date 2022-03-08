@@ -109,7 +109,6 @@ class Game extends React.Component {
   }
 
   handleSortClick() {
-    console.log(this)
     this.setState({
       isAsc: !this.state.isAsc,
     });
@@ -143,8 +142,9 @@ class Game extends React.Component {
   render() {
     const { history, step, isAsc } = this.state;
     const { squares, x, y } = history[step];
+    const isFinal = squares.every(i => typeof i == 'string');
     const winner = calculateWinner(squares);
-    const status = winner ? `Winner: ${winner}` : `Next player: ${this.player()}`;
+    const status = winner ? `Winner: ${winner}` : (isFinal ? 'Is Draw' : `Next player: ${this.player()}`);
     const moves = history.map((_step, move) => {
       const { x, y } = _step;
       const desc = move ? `Go to move #${move} [${x},${y}]` : 'Go to game start';
