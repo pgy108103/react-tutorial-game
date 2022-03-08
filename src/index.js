@@ -91,11 +91,19 @@ class Game extends React.Component {
       ],
       xIsNext: true,
       step: 0,
+      isAsc: true,
     };
   }
 
   player() {
     return this.state.xIsNext ? 'X' : 'O';
+  }
+
+  handleSortClick() {
+    console.log(this)
+    this.setState({
+      isAsc: !this.state.isAsc,
+    });
   }
 
   handleClick(i) {
@@ -124,7 +132,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { history, step } = this.state;
+    const { history, step, isAsc } = this.state;
     const { squares, x, y } = history[step];
     const winner = calculateWinner(squares);
     const status = winner ? `Winner: ${winner}` : `Next player: ${this.player()}`;
@@ -138,7 +146,7 @@ class Game extends React.Component {
         </li>
       );
     })
-
+    moves.sort((a, b) => isAsc ? a.key - b.key : b.key - a.key);
     return (
       <div className="game">
         <div className="game-board">
@@ -149,7 +157,10 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
+          <div>
+            {status}
+            <button onClick={() => this.handleSortClick()}>{this.state.isAsc ? 'Asc' : 'Desc'}</button>
+          </div>
           <ol>{moves}</ol>
         </div>
       </div>
