@@ -20,7 +20,7 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  for (let i = 0; i < lines.length; i++){
+  for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
@@ -46,31 +46,33 @@ class Board extends React.Component {
 
     return (
       <Square
+        key={i}
         value={this.props.squares[i]}
-        isCurrent={ isCurrent }
+        isCurrent={isCurrent}
         onClick={() => this.props.onClick(i)}
       />
+    );
+  }
+
+  renderSquares() {
+    const arr = [
+      Array(3).fill(0),
+      Array(3).fill(0),
+      Array(3).fill(0),
+    ];
+    return (
+      arr.map((i, ii) => (
+        <div className="board-row" key={ii}>
+          {i.map((j, ji) => this.renderSquare(ii * 3 + ji))}
+        </div>
+      ))
     );
   }
 
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.renderSquares()}
       </div>
     );
   }
@@ -123,15 +125,15 @@ class Game extends React.Component {
 
   render() {
     const { history, step } = this.state;
-    const { squares,x,y } = history[step];
+    const { squares, x, y } = history[step];
     const winner = calculateWinner(squares);
     const status = winner ? `Winner: ${winner}` : `Next player: ${this.player()}`;
     const moves = history.map((_step, move) => {
       const { x, y } = _step;
-      const desc = move ? `Go to move #${move} {${x},${y}}` : 'Go to game start';
+      const desc = move ? `Go to move #${move} [${x},${y}]` : 'Go to game start';
       const fontWeight = move === step ? 'bold' : undefined;
       return (
-        <li key={ move }>
+        <li key={move}>
           <button style={{ fontWeight }} onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
@@ -142,13 +144,13 @@ class Game extends React.Component {
         <div className="game-board">
           <Board
             squares={squares}
-            coords={{x,y}}
+            coords={{ x, y }}
             onClick={(i) => this.handleClick(i)}
           />
         </div>
         <div className="game-info">
-          <div>{ status }</div>
-          <ol>{ moves }</ol>
+          <div>{status}</div>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
