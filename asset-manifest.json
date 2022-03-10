@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-tutorial-game/static/css/main.22941023.css",
+    "main.js": "/react-tutorial-game/static/js/main.24f5b5a6.js",
+    "index.html": "/react-tutorial-game/index.html",
+    "main.22941023.css.map": "/react-tutorial-game/static/css/main.22941023.css.map",
+    "main.24f5b5a6.js.map": "/react-tutorial-game/static/js/main.24f5b5a6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.22941023.css",
+    "static/js/main.24f5b5a6.js"
+  ]
+}
