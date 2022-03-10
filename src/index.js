@@ -100,6 +100,7 @@ class Game extends React.Component {
       step: 0,
       isAsc: true,
     };
+    this.handleSortClick = this.handleSortClick.bind(this);
   }
 
   player() {
@@ -166,7 +167,7 @@ class Game extends React.Component {
         <div className="game-info">
           <div>
             {status}
-            <button onClick={() => this.handleSortClick()}>{this.state.isAsc ? 'Asc' : 'Desc'}</button>
+            <button onClick={this.handleSortClick}>{this.state.isAsc ? 'Asc' : 'Desc'}</button>
           </div>
           <ol>{moves}</ol>
         </div>
