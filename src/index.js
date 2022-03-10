@@ -64,18 +64,16 @@ class Board extends React.Component {
   }
 
   renderSquares() {
-    const arr = [
+    const squares = [
       Array(3).fill(0),
       Array(3).fill(0),
       Array(3).fill(0),
-    ];
-    return (
-      arr.map((i, ii) => (
-        <div className="board-row" key={ii}>
-          {i.map((j, ji) => this.renderSquare(ii * 3 + ji))}
-        </div>
-      ))
-    );
+    ].map((i, ii) => (
+      <div className="board-row" key={ii}>
+        {i.map((j, ji) => this.renderSquare(ii * 3 + ji))}
+      </div>
+    ));
+    return squares;
   }
 
   render() {
